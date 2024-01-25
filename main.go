@@ -8,6 +8,7 @@ import (
 )
 
 func main() {
+	http.Handle("/", http.FileServer(http.Dir("./ui/build/web")))
 	http.HandleFunc("/register", handler.RegisterHandler)
 	http.HandleFunc("/login", handler.LoginHandler)
 	fmt.Println("Server is listening on :8080...")
