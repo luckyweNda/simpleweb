@@ -74,7 +74,8 @@ class _LoginWidgetState extends State<LoginWidget> {
   @override
   void initState() {
     super.initState();
-    if(Provider.of<LoginState>(context, listen: false).loginState == EnumLoginState.hasLogined) {
+    if (Provider.of<LoginState>(context, listen: false).loginState ==
+        EnumLoginState.hasLogined) {
       return;
     }
     SharedPreferences.getInstance().then((prefs) {

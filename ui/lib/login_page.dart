@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:simpleweb/login_state.dart';
 import 'package:simpleweb/misc/response_struct.dart';
 
@@ -46,6 +47,9 @@ class _LoginBlockState extends State<LoginBlock> {
         final result = LoginResponse.fromString(response.body);
         Provider.of<LoginState>(context)
             .updateUser(result.username, result.email);
+        SharedPreferences.getInstance().then((prefs) {
+          prefs.setString('token', result.token);
+        });
         context.go("/");
       }
 
