@@ -86,11 +86,18 @@ class _RegisterBlockState extends State<RegisterBlock> {
         ),
         _handlingRegister
             ? const CircularProgressIndicator()
-            : TextButton(
-                onPressed: () {
-                  _handleRegister(context);
-                },
-                child: const Text("Register")),
+            : Row(
+                children: [
+                  TextButton(
+                      onPressed: () {
+                        _handleRegister(context);
+                      },
+                      child: const Text("Register")),
+                  TextButton(
+                      onPressed: () => context.go("/"),
+                      child: const Text("Go back"))
+                ],
+              ),
       ],
     );
   }

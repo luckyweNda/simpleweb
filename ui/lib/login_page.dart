@@ -77,11 +77,18 @@ class _LoginBlockState extends State<LoginBlock> {
         ),
         _handlingLogin
             ? const CircularProgressIndicator()
-            : TextButton(
-                onPressed: () {
-                  _loginButtonCallback(context);
-                },
-                child: const Text("Login")),
+            : Row(
+                children: [
+                  TextButton(
+                      onPressed: () {
+                        _loginButtonCallback(context);
+                      },
+                      child: const Text("Login")),
+                  TextButton(
+                      onPressed: () => context.go("/"),
+                      child: const Text("Go back"))
+                ],
+              ),
       ],
     );
   }
