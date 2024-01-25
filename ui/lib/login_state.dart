@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:simpleweb/misc/response_struct.dart';
 
 enum EnumLoginState {
   init,
@@ -17,6 +18,26 @@ class LoginState with ChangeNotifier {
   EnumLoginState _loginState = EnumLoginState.init;
 
   EnumLoginState get loginState => _loginState;
+
+  late String _username;
+  late String _email;
+
+  String get username => _username;
+  String get email => _email;
+
+  set username(String name) {
+    _username = name;
+  }
+
+  set email(String mail) {
+    _email = mail;
+  }
+
+  void updateUser(String username, String email) {
+    _username = username;
+    _email = email;
+    notifyListeners();
+  }
 
   void updateState(EnumLoginState state) {
     _loginState = state;
@@ -36,11 +57,17 @@ class _LoginWidgetState extends State<LoginWidget> {
     http.get(
       Uri.parse('http://127.0.0.1:8080/login'),
       headers: {
-        HttpHeaders.authorizationHeader: "token",
+        HttpHeaders.authorizationHeader: "Bearer $token",
       },
     ).then((response) {
-      final jsonData = jsonDecode(response.body) as Map<String, dynamic>;
-      // TODO: handle token auth response
+      if (response.statusCode != 200) {
+        Provider.of<LoginState>(context, listen: false)
+            .updateState(EnumLoginState.noLogin);
+      } else {
+        final result = LoginResponse.fromString(response.body);
+        Provider.of<LoginState>(context, listen: false)
+            .updateUser(result.username, result.email);
+      }
     });
   }
 
@@ -79,10 +106,12 @@ class _NoLogin extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        TextButton(onPressed: () => context.go("/login"), child: const Text("Login")),
+        TextButton(
+            onPressed: () => context.go("/login"), child: const Text("Login")),
         const Text('or'),
         TextButton(
-            onPressed: () => context.go("/register"), child: const Text("Register"))
+            onPressed: () => context.go("/register"),
+            child: const Text("Register"))
       ],
     );
   }
