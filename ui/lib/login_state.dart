@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -36,6 +35,7 @@ class LoginState with ChangeNotifier {
   void updateUser(String username, String email) {
     _username = username;
     _email = email;
+    _loginState = EnumLoginState.hasLogined;
     notifyListeners();
   }
 
