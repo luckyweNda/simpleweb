@@ -39,7 +39,7 @@ class _LoginBlockState extends State<LoginBlock> {
       if (response.statusCode != 200) {
         showDialog(
           context: context,
-          builder: (context) => Dialog(
+          builder: (context) => const Dialog(
             child: Text("Fail to login"),
           ),
         );
@@ -76,12 +76,12 @@ class _LoginBlockState extends State<LoginBlock> {
           obscureText: true,
         ),
         _handlingLogin
-            ? CircularProgressIndicator()
+            ? const CircularProgressIndicator()
             : TextButton(
                 onPressed: () {
                   _loginButtonCallback(context);
                 },
-                child: Text("Login")),
+                child: const Text("Login")),
       ],
     );
   }
@@ -92,7 +92,7 @@ class LoginPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    return const Scaffold(
       body: Center(child: LoginBlock()),
     );
   }
