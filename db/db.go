@@ -7,6 +7,7 @@ import (
 	"log"
 
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/luckyweNda/simpleweb/misc"
 )
 
 var (
@@ -29,6 +30,23 @@ func RegisterUser(username string, email string, password string) error {
 
 	fmt.Println("Data inserted successfully.")
 	return nil
+}
+
+func CheckLoginUser(email string, password string) (bool, string) {
+	password = misc.MD5Encode(password)
+	selectQuery := "SELECT username FROM users WHERE email = ? AND password_hash = ? LIMIT 1"
+
+	var username string
+
+	err := dbConnection.QueryRow(selectQuery, email, password).Scan(&username)
+	switch {
+	case err == sql.ErrNoRows:
+		return false, err.Error()
+	case err != nil:
+		return false, err.Error()
+	default:
+		return true, username
+	}
 }
 
 func parseDatabaseFlag() {

@@ -30,20 +30,5 @@ func RegisterHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	token, err := misc.CreateJWT(newUser.Username, newUser.Email)
-	if err != nil {
-		http.Error(w, "Internal server error", http.StatusInternalServerError)
-		return
-	}
-
-	response := LoginResponse{OK: true, Token: token, Username: newUser.Username, Email: newUser.Email}
-	jsonResponse, err := json.Marshal(response)
-	if err != nil {
-		http.Error(w, "Internal server error", http.StatusInternalServerError)
-		return
-	}
-
-	w.Header().Set("Content-Type", "application/json")
-	w.WriteHeader(http.StatusOK)
-	w.Write(jsonResponse)
+	TokenResponse(w, r, newUser.Username, newUser.Email)
 }
