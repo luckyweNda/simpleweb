@@ -8,3 +8,6 @@ CREATE TABLE users (
 
 INSERT INTO users (username, email, password_hash) 
 VALUES ('example_user', 'user@example.com', 'hashed_password');
+
+ALTER TABLE users
+ADD CONSTRAINT unique_email UNIQUE (email);
