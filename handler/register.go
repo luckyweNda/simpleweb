@@ -15,7 +15,7 @@ func RegisterHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	decoder := json.NewDecoder(r.Body)
-	var newUser User
+	var newUser RegisterRequest
 	err := decoder.Decode(&newUser)
 	if err != nil {
 		http.Error(w, "Invalid JSON format", http.StatusBadRequest)
@@ -36,7 +36,7 @@ func RegisterHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	response := TokenResponse{OK: true, Token: token, Username: newUser.Username, Email: newUser.Email}
+	response := LoginResponse{OK: true, Token: token, Username: newUser.Username, Email: newUser.Email}
 	jsonResponse, err := json.Marshal(response)
 	if err != nil {
 		http.Error(w, "Internal server error", http.StatusInternalServerError)
