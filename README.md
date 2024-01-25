@@ -1,10 +1,9 @@
-## Simple Web Project
-### **Frontend: Flutter**
-### **Backend: Golang**
-- MySQL crud
-- Home page has a simple calculator
-- No login user cannot use calculator
-- Login page
-- Register page
-- Http server
-- Cross platform
+# SimpleWeb
+
+SimpleWeb is a learning project built with **flutter** and **golang**, designed to provide a straightforward yet feature-rich login and registration system.
+
+## Features
+
+- User registration to create an account.
+- User login functionality with stateless authentication using JWT (JSON Web Tokens).
+- Cross-platform compatibility for a seamless learning experience.
