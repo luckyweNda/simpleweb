@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/luckyweNda/simpleweb/db"
+	"github.com/luckyweNda/simpleweb/misc"
 )
 
 func LoginHandler(w http.ResponseWriter, r *http.Request) {
@@ -18,7 +19,12 @@ func LoginHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func LoginGetHandler(w http.ResponseWriter, r *http.Request) {
-
+	ok, username, email := misc.ExtractTokenFromHeader(r)
+	if ok && username != "" && email != "" {
+		TokenResponse(w, r, username, email)
+	} else {
+		http.Error(w, "Non authoritative info", http.StatusNonAuthoritativeInfo)
+	}
 }
 
 func LoginPostHandler(w http.ResponseWriter, r *http.Request) {
