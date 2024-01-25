@@ -98,10 +98,40 @@ class _LoginWidgetState extends State<LoginWidget> {
       case EnumLoginState.noLogin:
         return _NoLogin();
       case EnumLoginState.hasLogined:
-        return const Text('login');
+        return _HasLogin();
       default:
         throw UnimplementedError();
     }
+  }
+}
+
+class _HasLogin extends StatelessWidget {
+  void _logoutButtonHandler(BuildContext context) {
+    SharedPreferences.getInstance().then((prefs) {
+      prefs.remove("token").then((ok) {
+        Provider.of<LoginState>(context).updateState(EnumLoginState.noLogin);
+        context.go("/");
+      });
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Column(
+          children: [
+            Text("User: ${Provider.of<LoginState>(context).username}"),
+            Text("Email: ${Provider.of<LoginState>(context).email}"),
+          ],
+        ),
+        TextButton(
+            onPressed: () {
+              _logoutButtonHandler(context);
+            },
+            child: const Text("Logout"))
+      ],
+    );
   }
 }
 
